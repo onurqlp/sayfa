@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A1.1 Deutsch Einstufungstest</title>
+    <script>
+        function calculateResult() {
+            // Doğru cevaplar
+            const answers = ['Apfel', 'der', 'wohne', 'Autos', 'mein'];
+
+            // Kullanıcının cevaplarını kontrol et
+            let correct = 0;
+            for (let i = 1; i <= 5; i++) {
+                const question = document.querySelector(`input[name="question${i}"]:checked`);
+                if (question && question.value === answers[i - 1]) {
+                    correct++;
+                }
+            }
+
+            // Sonuçları hesapla
+            const score = (correct / 5) * 100;
+            let feedback = '';
+
+            // Geri bildirim sağla
+            if (score === 100) {
+                feedback = 'Mükemmel! Tüm soruları doğru yaptınız!';
+            } else if (score >= 80) {
+                feedback = 'Harika! Dil bilgisi ve kelime bilginiz çok iyi.';
+            } else if (score >= 60) {
+                feedback = 'İyi iş! Biraz daha kelime ve dil bilgisi çalışmanız gerek.';
+            } else {
+                feedback = 'Daha fazla pratik yapmanız gerekiyor. "Menschen A1.1" kitabını tekrar gözden geçirin.';
+            }
+
+            // Sonuçları ekranda göster
+            document.getElementById('result').innerHTML = `Doğru sayısı: ${correct}/5<br>Yüzde: ${score}%<br>${feedback}`;
+
+            // "Ne güzel insansın" mesajını ekranda büyük şekilde göster
+            document.getElementById('congrats').innerHTML = `<strong style="font-size: 2em; color: green;">Ne güzel insansın, bu testi çözdün!</strong>`;
+
+            // Formspree ile sonuçları gönder
+            setTimeout(function() {
+                document.getElementById('testForm').submit(); // Formu 1 dakika sonra gönder
+            }, 60000); // 60000 milisaniye = 1 dakika
+
+            // Geri sayım başlat
+            let countdown = 60;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(function() {
+                countdown--;
+                countdownElement.textContent = `Sayfa 1 dakika sonra yönlendirilecek... Kalan süre: ${countdown} saniye`;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body>
+    <h1>A1.1 Deutsch Einstufungstest</h1>
+    <form id="testForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- Personal Info -->
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">E-Mail:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <!-- Fragen -->
+        <h2>Fragen</h2>
+
+        <label>1. Wie sagt man "apple" auf Deutsch?</label><br>
+        <input type="radio" name="question1" value="Apfel" required> Apfel<br>
+        <input type="radio" name="question1" value="Banane"> Banane<br>
+        <input type="radio" name="question1" value="Orange"> Orange<br><br>
+
+        <label>2. Welcher Artikel ist richtig: ____ Tisch?</label><br>
+        <input type="radio" name="question2" value="der" required> der<br>
+        <input type="radio" name="question2" value="die"> die<br>
+        <input type="radio" name="question2" value="das"> das<br><br>
+
+        <label>3. Wähle das richtige Verb: "Ich ____ in Berlin."</label><br>
+        <input type="radio" name="question3" value="wohne" required> wohne<br>
+        <input type="radio" name="question3" value="lebt"> lebt<br>
+        <input type="radio" name="question3" value="fahren"> fahren<br><br>
+
+        <label>4. Wie bildet man den Plural von "Auto"?</label><br>
+        <input type="radio" name="question4" value="Autos" required> Autos<br>
+        <input type="radio" name="question4" value="Autoen"> Autoen<br>
+        <input type="radio" name="question4" value="Auti"> Auti<br><br>
+
+        <label>5. Wähle das richtige Pronomen: "Das ist ____ Buch."</label><br>
+        <input type="radio" name="question5" value="mein" required> mein<br>
+        <input type="radio" name="question5" value="meine"> meine<br>
+        <input type="radio" name="question5" value="meins"> meins<br><br>
+
+        <!-- Submit Button -->
+        <button type="button" onclick="calculateResult()">Ergebnisse anzeigen</button>
+    </form>
+
+    <!-- Result Section -->
+    <div id="result"></div>
+
+    <!-- Congrats Message Section -->
+    <div id="congrats"></div>
+
+    <!-- Countdown Section -->
+    <p id="countdown"></p>
+</body>
+</html>
